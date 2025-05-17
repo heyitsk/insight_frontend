@@ -22,10 +22,10 @@ interface ResponseData {
 
 export default function ConnectDbForm() {
   const [form, setForm] = useState<DbCredentials>({
-    host: "localhost",
+    host: "",
     port: 5432,
-    user: "kushagra",
-    password: "15481548",
+    user: "",
+    password: "",
     database: "",
   });
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ export default function ConnectDbForm() {
         sessionId,
       });
 
-      console.log(res.data);
+      //   console.log(res.data);
 
       setResponse({ success: true, message: "Connection successfull" });
       if (res.data.success) {

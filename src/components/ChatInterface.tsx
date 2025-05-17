@@ -147,14 +147,14 @@ export default function ChatInterface() {
       });
 
       setResponse(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     } catch (err: any) {
       if (err.response.status === 440) {
         localStorage.removeItem("sessionId");
         alert("Your session has expired. Please reconnect your database.");
         navigate("/");
       }
-      console.error("API error:", err);
+      // console.error("API error:", err);
       setResponse({
         error: err.response?.data?.error || "An unknown error occurred.",
       });
