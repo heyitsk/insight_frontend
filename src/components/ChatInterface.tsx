@@ -93,7 +93,9 @@ export default function ChatInterface() {
             {response.answer && (
               <div>
                 <p className="text-muted-foreground">AI Explanation:</p>
-                <p>{response.answer}</p>
+                <p className="bg-muted p-2 rounded text-[0.9rem]">
+                  {response.answer}
+                </p>
               </div>
             )}
 
