@@ -141,10 +141,13 @@ export default function ChatInterface() {
     setResponse(null);
 
     try {
-      const res = await axios.post<ResponseData>("http://localhost:5000/ask", {
-        question,
-        sessionId,
-      });
+      const res = await axios.post<ResponseData>(
+        "https://insight-backend-6arv.onrender.com/ask",
+        {
+          question,
+          sessionId,
+        }
+      );
 
       setResponse(res.data);
       // console.log(res.data);

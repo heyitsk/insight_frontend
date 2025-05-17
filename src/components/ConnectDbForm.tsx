@@ -47,10 +47,13 @@ export default function ConnectDbForm() {
     setResponse(null);
 
     try {
-      const res = await axios.post("http://localhost:5000/connect-db", {
-        ...form,
-        sessionId,
-      });
+      const res = await axios.post(
+        "https://insight-backend-6arv.onrender.com/connect-db",
+        {
+          ...form,
+          sessionId,
+        }
+      );
 
       //   console.log(res.data);
 
