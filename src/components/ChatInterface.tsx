@@ -120,6 +120,31 @@ function DynamicChart({ data, chart }: { data: any[]; chart: any }) {
           </ScatterChart>
         </ResponsiveContainer>
       );
+    case "table":
+      return (
+        <div className="overflow-auto rounded border mt-4">
+          <table className="min-w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-100">
+                {/* Render only x and y columns based on chart config */}
+                {[x, y].map((key) => (
+                  <th key={key} className="px-4 py-2 text-left border-b">
+                    {key}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((row, rowIndex) => (
+                <tr key={rowIndex} className="hover:bg-gray-50">
+                  <td className="px-4 py-2 border-b">{row[x]}</td>
+                  <td className="px-4 py-2 border-b">{row[y]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
 
     default:
       return <p>Unsupported chart type: {type}</p>;
