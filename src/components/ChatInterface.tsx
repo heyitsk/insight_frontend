@@ -18,6 +18,8 @@ import {
   Tooltip,
   CartesianGrid,
   ResponsiveContainer,
+  ScatterChart,
+  Scatter,
 } from "recharts";
 
 interface ResponseData {
@@ -95,6 +97,30 @@ function DynamicChart({ data, chart }: { data: any[]; chart: any }) {
           </PieChart>
         </ResponsiveContainer>
       );
+    case "scatter":
+      return (
+        <ResponsiveContainer width="100%" height={300}>
+          <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              type="category"
+              dataKey={x}
+              name={x}
+              label={{ value: x, position: "insideBottom", offset: -5 }}
+              tick={{ fontSize: 12 }}
+            />
+            <YAxis
+              type="number"
+              dataKey={y}
+              name={y}
+              label={{ value: y, angle: -90, position: "insideLeft" }}
+            />
+            <Tooltip cursor={{ strokeDasharray: "3 3" }} />
+            <Scatter name="Data Points" data={data} fill="#8884d8" />
+          </ScatterChart>
+        </ResponsiveContainer>
+      );
+
     default:
       return <p>Unsupported chart type: {type}</p>;
   }
