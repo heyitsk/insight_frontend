@@ -145,6 +145,20 @@ function DynamicChart({ data, chart }: { data: any[]; chart: any }) {
           </table>
         </div>
       );
+    case "list":
+      return (
+        <div className="mt-4 space-y-2">
+          {data.map((item, index) => (
+            <div
+              key={index}
+              className="flex items-center justify-between p-4 bg-white shadow rounded border"
+            >
+              <span className="font-medium text-gray-800">{item[x]}</span>
+              <span className="text-gray-600">{item[y]}</span>
+            </div>
+          ))}
+        </div>
+      );
 
     default:
       return <p>Unsupported chart type: {type}</p>;
