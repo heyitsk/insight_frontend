@@ -5,12 +5,99 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { getSessionId } from "@/lib/session";
 import { useNavigate } from "react-router-dom";
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  ResponsiveContainer,
+} from "recharts";
 
 interface ResponseData {
   sql?: string;
   answer?: string;
   data?: Record<string, any>[];
+  chart?: {
+    type: "bar" | "line" | "pie";
+    x: string;
+    y: string;
+  };
   error?: string;
+}
+
+const COLORS = [
+  "#8884d8",
+  "#82ca9d",
+  "#ffc658",
+  "#ff8042",
+  "#a4de6c",
+  "#d0ed57",
+];
+function DynamicChart({ data, chart }: { data: any[]; chart: any }) {
+  if (!data || !chart) return null;
+
+  const { type, x, y } = chart;
+
+  switch (type) {
+    case "bar":
+      return (
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey={x} />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey={y} fill="#8884d8" />
+          </BarChart>
+        </ResponsiveContainer>
+      );
+    case "line":
+      return (
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey={x} />
+            <YAxis />
+            <Tooltip />
+            <Line type="monotone" dataKey={y} stroke="#82ca9d" />
+          </LineChart>
+        </ResponsiveContainer>
+      );
+    case "Pie Chart":
+      return (
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart>
+            <Pie
+              data={data}
+              dataKey={y}
+              nameKey={x}
+              cx="50%"
+              cy="50%"
+              outerRadius={100}
+              fill="#8884d8"
+              label
+            >
+              {data.map((_, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
+            <Tooltip />
+          </PieChart>
+        </ResponsiveContainer>
+      );
+    default:
+      return <p>Unsupported chart type: {type}</p>;
+  }
 }
 
 export default function ChatInterface() {
@@ -105,6 +192,14 @@ export default function ChatInterface() {
                 <pre className="bg-muted p-2 rounded text-xs overflow-x-auto">
                   {JSON.stringify(response.data, null, 2)}
                 </pre>
+              </div>
+            )}
+            {response.chart && response.data && (
+              <div>
+                <p className="text-muted-foreground">Visual Representation:</p>
+                <div className="bg-muted rounded p-4">
+                  <DynamicChart data={response.data} chart={response.chart} />
+                </div>
               </div>
             )}
           </CardContent>
